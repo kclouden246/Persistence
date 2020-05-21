@@ -53,11 +53,46 @@ const getStudentQueryByGradeFromID = (request, response) => {
   });
 };
 
+// PUT updated data in an existing user
+const updateStudentGrade = (request, response) => {
+  const id = parseInt(request.params.id);
+  const { firstname, grade1 } = request.body;
+
+  pool.query(
+    "UPDATE student SET grade1 = $1 WHERE id = $2",
+    [firstname, grade1, id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).send(`User modified with ID: ${id}`);
+    }
+  );
+};
+
+// POST a new user
+const createStudent = (request, response) => {
+  const { id, firstname, lastname, grade1, grade2, grade3 } = request.body;
+
+  pool.query(
+    "INSERT INTO student (id, firstname, lastname, grade1, grade2, grade3) VALUES ($1, $2, $3, $4, $5)",
+    [id, firstname, lastname, grade1, grade2, grade3],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(201).send("Student added");
+    }
+  );
+};
+
 module.exports = {
     getStudents,
     getStudentById,
     getStudentQueryByGrade,
-    getStudentQueryByGradeFromID
+    getStudentQueryByGradeFromID,
+    updateStudentGrade,
+    createStudent
   };
 
 /*

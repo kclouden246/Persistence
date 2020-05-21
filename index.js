@@ -19,6 +19,8 @@ app.get("/", (request, response) => {
 app.get("/student", db.getStudents);
 app.get("/student/:id", db.getStudentById);
 app.get("/grades/:id", db.getStudentQueryByGradeFromID);
+app.put("/student/:id", db.updateStudentGrade);
+app.post("/student", db.createStudent);
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`);
